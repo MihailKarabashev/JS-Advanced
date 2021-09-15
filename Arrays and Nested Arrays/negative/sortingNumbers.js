@@ -10,8 +10,7 @@ function sortNumbers(array){
         result.push(min, max);
     }
 
-   console.log(result);
-
+  return result;
 }
 
 sortNumbers([1, 65, 3, 52, 48, 63, 31, -3, 18, 56]);
