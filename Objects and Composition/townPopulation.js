@@ -14,26 +14,6 @@ function createRegistery(array){
     for (const key in myObj) {
         console.log(`${key} : ${myObj[key]}`);
     }
-
-
-    // let obj = {};
-    
-    // array.forEach(value => {
-
-    //  let splittedArray = value.split(' <-> ').filter(value=> value != ' ');
-    //  let [town,population] = splittedArray;
-    //  let populationAsString = Number(population);
-      
-    //   if (obj[town] !== undefined) {
-    //       obj[town]+=populationAsString;
-    //   }else{
-    //      obj[town] = populationAsString;
-    //   }
-    // });
-
-    // for (const key in obj) {
-    //     console.log(`${key} : ${obj[key]}`);
-    // }
 }
 
 

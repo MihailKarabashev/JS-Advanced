@@ -19,9 +19,9 @@ function convertTownsToJson(array){
     console.log(JSON.stringify(arr));
 }
 
-// convertTownsToJson(['| Town | Latitude | Longitude |',
-// '| Sofia | 42.696552 | 23.32601 |',
-// '| Beijing | 39.913818 | 116.363625 |']);
+convertTownsToJson(['| Town | Latitude | Longitude |',
+'| Sofia | 42.696552 | 23.32601 |',
+'| Beijing | 39.913818 | 116.363625 |']);
 
 convertTownsToJson([
    ' | Town | Latitude | Longitude |',
