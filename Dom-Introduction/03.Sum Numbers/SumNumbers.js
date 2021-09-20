@@ -1,3 +1,5 @@
 function calc() {
-    // TODO: sum = num1 + num2
+     let firstInput = document.getElementById('num1').value;
+     let secoundInput = document.getElementById('num2').value;
+    document.getElementById('sum').value = Number(firstInput) + Number(secoundInput);
 }
