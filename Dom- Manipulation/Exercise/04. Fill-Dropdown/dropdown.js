@@ -6,7 +6,8 @@ function addItem() {
    let selectElement = document.querySelector('#menu');
 
    let optionElement = document.createElement('option');
-   optionElement.textContent = text.value + value.value;
+   optionElement.textContent = text.value;
+   optionElement.value = value.value;
 
    selectElement.appendChild(optionElement);
 
