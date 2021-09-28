@@ -8,8 +8,7 @@ function solve(area, vol, input) {
       arr.push({area:area.call(element),volume: vol.call(element)});  
    });
    return arr;
-
-}
+} 
  
 function area() {
     return Math.abs(this.x * this.y);
