@@ -13,47 +13,73 @@ function solution() {
   };
 
   let storage = {
-    carbohydrate: 0,
-    flavour: 0,
-    fat: 0,
     protein: 0,
+    carbohydrate: 0,
+    fat: 0,
+    flavour: 0,
   };
 
   let obj = {
     restock(microElement, quantity) {
       storage[microElement] += Number(quantity);
+      return "Success";
     },
     prepare(recepi, quantity) {
-      if (
-        recepies[recepi].some(
-          (ingredient, index, myArr) =>
-            storage[myArr[ingredient]] < myArr[ingredient] * quantity
-        )
-      ) {
-        console.log("ss");
-      }
+      let errorArray = recepies[recepi].filter(
+        (ingredient) =>
+          storage[Object.keys(ingredient)[0]] <
+          Object.values(ingredient)[0] * quantity
+      );
 
-      for (let index = 0; index < recepies[recepi].length; index++) {
-        let ingredient = recepies[recepi][index];
-        let storageQuantity = storage[Object.keys(ingredient)[0]];
-        let recepiQuantity = Object.values(ingredient)[0] * quantity;
-
-        storageQuantity -= recepiQuantity;
+      if (errorArray.length > 0) {
+        throw `Error: not enough ${Object.keys(errorArray[0])[0]} in stock`;
+      } else {
+        for (let index = 0; index < recepies[recepi].length; index++) {
+          let ingredient = recepies[recepi][index];
+          let recepiQuantity = Object.values(ingredient)[0] * quantity;
+          storage[Object.keys(ingredient)[0]] -= recepiQuantity;
+        }
+        return "Success";
       }
     },
     report() {
-      console.log(storage);
+      let result = "";
+      let storageEntries = Object.entries(storage);
+      for (const [key, value] of storageEntries) {
+        result += `${key}=${value} `;
+      }
+
+      return result.trim();
     },
   };
 
   return function (args) {
     let [command, recepiOrIngrediant, quantity] = args.split(" ");
-    obj[command](recepiOrIngrediant, quantity);
+    try {
+      return obj[command](recepiOrIngrediant, quantity);
+    } catch (e) {
+      return e;
+    }
   };
 }
 
 let manager = solution();
-console.log(manager("restock flavour 50")); // Success
-console.log(manager("prepare lemonade 4")); // Error: not enough carbohydrate in stock
-// console.log(manager("prepare apple 4")); // Error: not enough carbohydrate in stock
-//manager("report");
+// console.log(manager("restock flavour 50"));
+// console.log(manager("prepare lemonade 4"));
+// console.log(manager("restock carbohydrate 10"));
+// console.log(manager("restock flavour 10"));
+// console.log(manager("prepare apple 1"));
+// console.log(manager("restock fat 10"));
+// console.log(manager("prepare burger 1"));
+// console.log(manager("report"));
+
+console.log(manager("prepare turkey 1"));
+console.log(manager("restock protein 10"));
+console.log(manager("prepare turkey 1"));
+console.log(manager("restock carbohydrate 10"));
+console.log(manager("prepare turkey 1"));
+console.log(manager("restock fat 10"));
+console.log(manager("prepare turkey 1"));
+console.log(manager("restock flavour 10"));
+console.log(manager("prepare turkey 1"));
+console.log(manager("report"));
