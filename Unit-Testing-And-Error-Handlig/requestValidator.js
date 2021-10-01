@@ -1,27 +1,21 @@
 function solve(request) {
   let methods = ["GET", "POST", "DELETE", "CONNECT"];
-  let version = ["HTTP/0.9", "HTTP/1.0", "HTTP/1.1", "HTTP/2.0 "];
+  let version = ["HTTP/0.9", "HTTP/1.0", "HTTP/1.1", "HTTP/2.0"];
   let uri = /[\w||.+||,+||*]/;
-  let message = /[^<, >, \, &, ', "]/;
+  let message = /[^<, >, \, &, ', \s"]/;
 
-  if (!methods.includes(request.method.toUpperCase())) {
-    throw Error(`Invalid request header: Invalid ${request.method}`);
-  } else if (!version.includes(request.version.toUpperCase())) {
-    throw Error(`Invalid request header: Invalid ${request.version}`);
-  } else if (!request.uri.match(uri)) {
-    throw Error(`Invalid request header: Invalid ${request.uri}`);
-  } else if (!request.message.match(message)) {
-    throw Error(`Invalid request header: Invalid ${request.message}`);
+  if (!methods.includes(request.method)) {
+    throw new Error(`Invalid request header: Invalid Method`);
+  } else if (!version.includes(request.version)) {
+    throw Error(`Invalid request header: Invalid Version`);
+  } else if (request.uri == undefined || !request.uri.match(uri)) {
+    throw Error(`Invalid request header: Invalid URI`);
+  } else if (
+    request.message == undefined ||
+    (!request.message.match(message) && request.message !== "")
+  ) {
+    throw Error(`Invalid request header: Invalid Message`);
   }
 
   return request;
 }
-
-console.log(
-  solve({
-    method: "GET",
-    uri: "svn.public.catalog",
-    version: "HTTP/1.1",
-    message: "",
-  })
-);
