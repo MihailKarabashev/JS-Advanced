@@ -1,12 +1,16 @@
 function validate() {
-  document
-    .querySelector("#registerForm")
-    .addEventListener("submit", function (e) {
-      e.preventDefault();
+  let myElement = createElement("div", {}, "Koce");
 
-      const formData = new FormData(e.currentTarget);
-      let username = formData.get("username");
+  console.log(myElement);
 
-      console.log(username);
-    });
+  function createElement(element, attr, content) {
+    let el = document.createElement(element);
+    for (const key in attr) {
+      el[key] = attr[key];
+    }
+    if (content) {
+      el.textContent = content;
+    }
+    return el;
+  }
 }
