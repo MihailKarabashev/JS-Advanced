@@ -25,7 +25,6 @@ class ArtGallery {
         articleName,
         quantity,
       });
-
       return `Successfully added article ${articleName} with a new quantity- ${quantity}.`;
     }
   }
@@ -96,3 +95,8 @@ class ArtGallery {
     return result.join("\n");
   }
 }
+
+const artGallery = new ArtGallery("Curtis Mayfield");
+console.log(artGallery.addArticle("picture", "Mona Liza", 3));
+console.log(artGallery.addArticle("Item", "Ancient vase", 2));
+console.log(artGallery.addArticle("picture", "Mona Liza", 1));

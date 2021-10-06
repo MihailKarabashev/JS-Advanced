@@ -7,8 +7,6 @@ class Restaurant {
   }
 
   loadProducts(products) {
-    let result = [];
-
     products.forEach((product) => {
       let [productName, productQuantity, productTotalPrice] =
         product.split(" ");
@@ -26,10 +24,10 @@ class Restaurant {
         this.budgetMoney -= productTotalPrice;
       }
 
-      result.push(isPriceBigger);
+      this.history.push(isPriceBigger);
     });
 
-    return result.join("\n");
+    return this.history.join("\n");
   }
 
   addToMenu(meal, neededProducts, price) {
@@ -50,7 +48,7 @@ class Restaurant {
     }
 
     let message =
-      this.menu[meal].allProducts.length === 1
+      Object.keys(this.menu).length === 1
         ? `Great idea! Now with the ${meal} we have 1 meal in the menu, other ideas?`
         : `Great idea! Now with the ${meal} we have ${
             Object.keys(this.menu).length
@@ -60,10 +58,10 @@ class Restaurant {
   }
 
   showTheMenu() {
-    return Object.keys(this.menu) === 0
+    return Object.keys(this.menu).length === 0
       ? `Our menu is not ready yet, please come later...`
       : Object.entries(this.menu)
-          .map((x) => `${x[0]} - $  ${x[1].price}`)
+          .map((x) => `${x[0]} - $ ${x[1].price}`)
           .join("\n");
   }
 
@@ -72,23 +70,24 @@ class Restaurant {
       return `There is not ${meal} yet in our menu, do you want to order something else?`;
     }
 
+    let clonedObject = Object.assign({}, this.stockProducts);
+    let clonedBudgetMoney = this.budgetMoney;
+
     for (const product of this.menu[meal].allProducts) {
-      console.log(Object.keys(product)[0]);
-      console.log(Object.values(product)[0]);
+      for (const key in product) {
+        if (this.stockProducts[key] < product[key]) {
+          this.stockProducts = Object.assign({}, clonedObject);
+          this.budgetMoney = clonedBudgetMoney;
+          return `For the time being, we cannot complete your order (${meal}), we are very sorry...`;
+        } else {
+          this.stockProducts[key] -= product[key];
+          this.budgetMoney += this.menu[meal].price;
+        }
+      }
     }
+    return `Your order (${meal}) will be completed in the next 30 minutes and will cost you ${this.menu[meal].price}.`;
   }
 }
 
 let kitchen = new Restaurant(1000);
-kitchen.loadProducts([
-  "Yogurt 30 3",
-  "Honey 50 4",
-  "Strawberries 20 10",
-  "Banana 5 1",
-]);
-kitchen.addToMenu(
-  "frozenYogurt",
-  ["Yogurt 1", "Honey 1", "Banana 1", "Strawberries 10"],
-  9.99
-);
-console.log(kitchen.makeTheOrder("frozenYogurt"));
+console.log(kitchen.showTheMenu());
