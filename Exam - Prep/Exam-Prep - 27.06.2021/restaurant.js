@@ -79,15 +79,11 @@ class Restaurant {
           this.stockProducts = Object.assign({}, clonedObject);
           this.budgetMoney = clonedBudgetMoney;
           return `For the time being, we cannot complete your order (${meal}), we are very sorry...`;
-        } else {
-          this.stockProducts[key] -= product[key];
-          this.budgetMoney += this.menu[meal].price;
         }
+        this.stockProducts[key] -= product[key];
+        this.budgetMoney += this.menu[meal].price;
       }
     }
     return `Your order (${meal}) will be completed in the next 30 minutes and will cost you ${this.menu[meal].price}.`;
   }
 }
-
-let kitchen = new Restaurant(1000);
-console.log(kitchen.showTheMenu());
