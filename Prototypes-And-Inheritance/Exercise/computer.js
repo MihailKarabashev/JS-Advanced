@@ -1,23 +1,23 @@
 function createComputerHierarchy() {
   class Keyboard {
     constructor(manufacturer, responseTime) {
-      this.manufacturer = manufacturer;
-      this.responseTime = responseTime;
+      [this.manufacturer, this.responseTime] = [manufacturer, responseTime];
     }
   }
 
   class Monitor {
     constructor(manufacturer, width, height) {
-      this.manufacturer = manufacturer;
-      this.width = width;
-      this.height = height;
+      [this.manufacturer, this.width, this.height] = [
+        manufacturer,
+        width,
+        height,
+      ];
     }
   }
 
   class Battery {
     constructor(manufacturer, expectedLife) {
-      this.manufacturer = manufacturer;
-      this.expectedLife = expectedLife;
+      [this.manufacturer, this.expectedLife] = [manufacturer, expectedLife];
     }
   }
 
@@ -27,10 +27,12 @@ function createComputerHierarchy() {
         throw new Error();
       }
 
-      this.manufacturer = manufacturer;
-      this.processorSpeed = processorSpeed;
-      this.ram = ram;
-      this.hardDiskSpace = hardDiskSpace;
+      [this.manufacturer, this.processorSpeed, this.ram, this.hardDiskSpace] = [
+        manufacturer,
+        processorSpeed,
+        ram,
+        hardDiskSpace,
+      ];
     }
   }
 
@@ -45,9 +47,8 @@ function createComputerHierarchy() {
       battery
     ) {
       super(manufacturer, processorSpeed, ram, hardDiskSpace);
-      this.weight = weight;
-      this.color = color;
-      this._validateBattery(battery);
+      [this.width, this.color] = [weight, color];
+      this._battery = _validateInput(battery, Battery, this._battery);
     }
 
     get battery() {
@@ -55,17 +56,7 @@ function createComputerHierarchy() {
     }
 
     set battery(value) {
-      this._validateBattery(value);
-    }
-
-    _validateBattery(input) {
-      let isInstanceOfBattery = input instanceof Battery;
-
-      if (!isInstanceOfBattery) {
-        throw new TypeError();
-      }
-
-      this._battery = input;
+      _validateInput(value, Battery, this._battery);
     }
   }
 
@@ -79,8 +70,8 @@ function createComputerHierarchy() {
       monitor
     ) {
       super(manufacturer, processorSpeed, ram, hardDiskSpace);
-      this._validateInput(keyboard, Keyboard, this._keyboard);
-      this._validateInput(monitor, Monitor, this._monitor);
+      this._keyboard = _validateInput(keyboard, Keyboard, this._keyboard);
+      this._monitor = _validateInput(monitor, Monitor, this._monitor);
     }
 
     get keyboard() {
@@ -88,7 +79,7 @@ function createComputerHierarchy() {
     }
 
     set keyboard(value) {
-      this._validateInput(value, Keyboard, this._keyboard);
+      _validateInput(value, Keyboard, this._keyboard);
     }
 
     get monitor() {
@@ -96,18 +87,19 @@ function createComputerHierarchy() {
     }
 
     set monitor(value) {
-      this._validateInput(value, Monitor, this._monitor);
+      _validateInput(value, Monitor, this._monitor);
+    }
+  }
+
+  function _validateInput(input, className, field) {
+    let instance = input instanceof className;
+
+    if (!instance) {
+      throw new TypeError();
     }
 
-    _validateInput(input, className, field) {
-      let instance = input instanceof className;
-
-      if (!instance) {
-        throw new TypeError();
-      }
-
-      field = input;
-    }
+    field = input;
+    return field;
   }
 
   return {
@@ -121,7 +113,22 @@ function createComputerHierarchy() {
 }
 
 let classes = createComputerHierarchy();
-let keyboard = new classes.Keyboard("SS", 30);
-let monitor = new classes.Monitor("FF", 33, 44);
-let computer = new classes.Desktop("dsad", 22, 22, 22, keyboard, monitor);
-computer.monitor = "adsadas";
+let Computer = classes.Computer;
+let Laptop = classes.Laptop;
+let Desktop = classes.Desktop;
+let Monitor = classes.Monitor;
+let Battery = classes.Battery;
+let Keyboard = classes.Keyboard;
+
+let battery = new Battery("Energy", 3);
+console.log(battery);
+let laptop = new Laptop(
+  "Hewlett Packard",
+  2.4,
+  4,
+  0.5,
+  3.12,
+  "Silver",
+  battery
+);
+console.log(laptop);
