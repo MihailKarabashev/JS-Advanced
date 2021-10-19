@@ -74,7 +74,7 @@ function solve() {
           }
         });
 
-        buyBtn.addEventListener("click", function (e) {
+        buyBtn.addEventListener("click", function () {
           let totalPrice = Number(totalPriceElement.textContent);
           totalPrice += Number(tdPrice.textContent);
           totalPriceElement.textContent = Number(totalPrice).toFixed(2);
