@@ -1,65 +1,114 @@
 
-//Excecution Context
-// 1function context == this
-// 2depends on how the function is invoked
-// 3Global invoke: func()  this == global
-function myFunc() {
-    console.log(this);
-}
-myFunc(); // this == global // this == window
-//Object method : object.function()
-const myObj = {
-    myFunc
-}
-myObj.myFunc(); // this == object where the function is called
-
-//DOM Event: element.addEventListener() this == element which trigger the event
-document.querySelector('button').addEventListener('click', myFunc); // this == button
-
-//Here Excecution Context is equal to this == button again , no matter we call myFunc from the myObj
-document.querySelector('button').addEventListener('click', myObj.myFunc); // this == button
-
-//4 call(), apply(), bind() -> We can manually say what the excecution context is
-
-function testFunc(a, b) {
-    console.log(this, a, b);
-}
-// apply()
-testFunc.apply(myObj, [10, 20]); // here we change execution context from global to object
-// call()
-testFunc.call(myObj, 10, 20); // Simlar to apply. Here we change execution context from global to object
-//bind => Bind makes copy of the function with my obj context and returns a copy of the original function
-// In our memory storage we will have copy of testFunc and execution context myObj
-const bindFunc = testFunc.bind(myObj);
-bindFunc(10, 20); // execution context point to myObj and bindFunc is copy of testFunc
-
 //1
-function area() {
-    return Math.abs(this.x * this.y);
-}
+// function area() {
+//     return Math.abs(this.x * this.y);
+// }
 
-function vol() {
-    return Math.abs(this.x * this.y * this.z);
-}
+// function vol() {
+//     return Math.abs(this.x * this.y * this.z);
+// }
 
-function solve(area, vol, input) {
-    let cubes = JSON.parse(input);
-    let arr = [];
+// function solve(area, vol, input) {
+//     let cubes = JSON.parse(input);
+//     let arr = [];
 
-    for (const cube of cubes) {
-        const cubeArea = area.call(cube)
-        const cubeVolume = vol.call(cube);
-        arr.push({
-            area: cubeArea,
-            volume: cubeVolume
-        });
+//     for (const cube of cubes) {
+//         const cubeArea = area.call(cube)
+//         const cubeVolume = vol.call(cube);
+//         arr.push({
+//             area: cubeArea,
+//             volume: cubeVolume
+//         });
+//     }
+
+//     console.log(arr);
+// }
+
+// solve(area, vol, `[
+//     {"x":"1","y":"2","z":"10"},
+//     {"x":"7","y":"7","z":"10"},
+//     {"x":"5","y":"2","z":"10"}
+//     ]`)
+
+
+//2
+// function solution(input) {
+//     return function anotherFunc(anotherInput) {
+//         return input + anotherInput;
+//     }
+// }
+// let add7 = solution(7);
+// console.log(add7(2));
+// console.log(add7(3));
+
+//3
+// function solve(input, criteria) {
+//     let parsedData = JSON.parse(input);
+//     let [criteriaProperty, criteriaValue] = criteria.split('-').filter(x => x.trim());
+
+//     return parsedData.filter(x => x[criteriaProperty] == criteriaValue)
+//         .map(data => ({
+//             firstName: data.first_name,
+//             lastName: data.last_name,
+//             email: data.email
+//         }))
+//         .forEach((x, i) => console.log(`${i}. ${x.firstName} ${x.lastName} - ${x.email}`));
+// }
+
+// solve(`[{
+//     "id": "1",
+//     "first_name": "Ardine",
+//     "last_name": "Bassam",
+//     "email": "abassam0@cnn.com",
+//     "gender": "Female"
+//     }, {
+//     "id": "2",
+//     "first_name": "Kizzee",
+//     "last_name": "Jost",
+//     "email": "kjost1@forbes.com",
+//     "gender": "Female"
+//     },
+//     {
+//     "id": "3",
+//     "first_name": "Evanne",
+//     "last_name": "Maldin",
+//     "email": "emaldin2@hostgator.com",
+//     "gender": "Male"
+//     }]`,
+//     'gender-Female');
+
+
+//4
+function solution() {
+    let str = '';
+
+    function append(input) {
+        str += input;
     }
 
-    console.log(arr);
+    function removeStart(n) {
+        str = str.substring(n);
+    }
+
+    function print() {
+        console.log(str);
+    }
+
+    function removeEnd(n) {
+        str = str.slice(0, -n);
+    }
+
+    return {
+        append,
+        print,
+        removeStart,
+        removeEnd
+    }
 }
 
-solve(area, vol, `[
-    {"x":"1","y":"2","z":"10"},
-    {"x":"7","y":"7","z":"10"},
-    {"x":"5","y":"2","z":"10"}
-    ]`)
+const myFunc = solution();
+myFunc.append('Hello');
+myFunc.append('again');
+myFunc.removeStart(3);
+myFunc.removeEnd(4);
+myFunc.print();

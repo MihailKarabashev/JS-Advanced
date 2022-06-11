@@ -31,3 +31,29 @@ testFunc.call(myObj, 10, 20); // Simlar to apply. Here we change execution conte
 // In our memory storage we will have copy of testFunc and execution context myObj
 const bindFunc = testFunc.bind(myObj);
 bindFunc(10, 20); // execution context point to myObj and bindFunc is copy of testFunc
+
+
+//First Class Functions => passed as an agrument to another function / returned by another function/ assigned as a value to a variable
+//First Class Functions == Higer-Order Functions
+//Predicate - function who returns true/false
+//Pure Function - Returns the same result given same parameters
+
+//Closure => The scope of an inner function  includes the scope of the outer function
+
+function start() {
+    let counter = 0;
+
+    function increment(a) {
+        counter += a;
+        console.log(counter);
+    }
+
+    return increment; // return function with parameter
+}
+
+//Start function does not ask for parameters but our return value is function increment which asks for parameter 'a'
+const myIncrement = start();
+myIncrement(2);
+myIncrement(2);
+myIncrement(2);
+
