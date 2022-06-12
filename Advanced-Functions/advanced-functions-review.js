@@ -144,32 +144,69 @@
 // solve(['add pesho', 'add george', 'add peter', 'remove peter', 'print']);
 
 //6
-function solve(input) {
-    const data = {}
+// function solve(input) {
+//     const data = {}
 
-    const instr = {
-        create: (n, inherits, n2) =>
-            (data[n] = inherits ? Object.create(data[n2]) : {}),
-        set: (n, k, v) => (data[n][k] = v),
-        print: n => {
-            const entry = []
-            for (const key in data[n]) {
-                entry.push(`${key}:${data[n][key]}`)
-            }
-            console.log(entry.join(", "))
-        },
-    }
+//     const instr = {
+//         create: (n, inherits, n2) =>
+//             (data[n] = inherits ? Object.create(data[n2]) : {}),
+//         set: (n, k, v) => (data[n][k] = v),
+//         print: n => {
+//             const entry = []
+//             for (const key in data[n]) {
+//                 entry.push(`${key}:${data[n][key]}`)
+//             }
+//             console.log(entry.join(", "))
+//         },
+//     }
 
-    input.forEach(x => {
-        const [c, n, k, v] = x.split(" ")
+//     input.forEach(x => {
+//         const [c, n, k, v] = x.split(" ")
 
-        instr[c](n, k, v)
-    })
-}
+//         instr[c](n, k, v)
+//     })
+// }
 
-solve(['create c1',
-    'create c2 inherit c1',
-    'set c1 color red',
-    'set c2 model new',
-    'print c1',
-    'print c2']);
+// solve(['create c1',
+//     'create c2 inherit c1',
+//     'set c1 color red',
+//     'set c2 model new',
+//     'print c1',
+//     'print c2']);
+
+//7
+// function solve(array, sortCriteria) {
+
+//     let obj = {
+//         asc() {
+//             return array.sort((a, b) => a - b);
+//         },
+
+//         desc() {
+//             return array.sort((a, b) => b - a);
+//         }
+//     }
+
+//     return obj[sortCriteria]();
+// }
+
+// console.log(solve([14, 7, 17, 6, 8], 'asc'));
+// console.log(solve([14, 7, 17, 6, 8], 'desc'));
+
+//8
+// function solve(...input) {
+//     let obj = {};
+//     for (const key in input) {
+//         obj[typeof input[key]] == undefined
+//             ? obj[typeof input[key]] = 1
+//             : obj[typeof input[key]] += 1;
+//         console.log(`${typeof input[key]}: ${input[key]}`);
+//     }
+
+//     console.log(obj);
+
+
+// }
+
+// solve('cat', 42, function () { console.log('Hello world!'); });
+
