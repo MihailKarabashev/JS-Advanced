@@ -79,36 +79,97 @@
 
 
 //4
-function solution() {
-    let str = '';
+// function solution() {
+//     let str = '';
 
-    function append(input) {
-        str += input;
+//     function append(input) {
+//         str += input;
+//     }
+
+//     function removeStart(n) {
+//         str = str.substring(n);
+//     }
+
+//     function print() {
+//         console.log(str);
+//     }
+
+//     function removeEnd(n) {
+//         str = str.slice(0, -n);
+//     }
+
+//     return {
+//         append,
+//         print,
+//         removeStart,
+//         removeEnd
+//     }
+// }
+
+// const myFunc = solution();
+// myFunc.append('Hello');
+// myFunc.append('again');
+// myFunc.removeStart(3);
+// myFunc.removeEnd(4);
+// myFunc.print();
+
+//5
+// function solve(array) {
+//     let obj = {
+//         add,
+//         remove,
+//         print,
+//         collection: [],
+//     }
+
+//     array.map(x => {
+//         let [command, messageStr] = x.split(' ');
+//         obj[command](messageStr);
+//     })
+
+//     function add(inputStr) {
+//         obj.collection.push(inputStr);
+//     }
+
+//     function remove(inputStr) {
+//         obj.collection = obj.collection.filter(x => x !== inputStr);
+//     }
+
+//     function print() {
+//         console.log(obj.collection.join(','));
+//     }
+// }
+
+// solve(['add hello', 'add again', 'remove hello', 'add again', 'print']);
+// solve(['add pesho', 'add george', 'add peter', 'remove peter', 'print']);
+
+//6
+function solve(input) {
+    const data = {}
+
+    const instr = {
+        create: (n, inherits, n2) =>
+            (data[n] = inherits ? Object.create(data[n2]) : {}),
+        set: (n, k, v) => (data[n][k] = v),
+        print: n => {
+            const entry = []
+            for (const key in data[n]) {
+                entry.push(`${key}:${data[n][key]}`)
+            }
+            console.log(entry.join(", "))
+        },
     }
 
-    function removeStart(n) {
-        str = str.substring(n);
-    }
+    input.forEach(x => {
+        const [c, n, k, v] = x.split(" ")
 
-    function print() {
-        console.log(str);
-    }
-
-    function removeEnd(n) {
-        str = str.slice(0, -n);
-    }
-
-    return {
-        append,
-        print,
-        removeStart,
-        removeEnd
-    }
+        instr[c](n, k, v)
+    })
 }
 
-const myFunc = solution();
-myFunc.append('Hello');
-myFunc.append('again');
-myFunc.removeStart(3);
-myFunc.removeEnd(4);
-myFunc.print();
+solve(['create c1',
+    'create c2 inherit c1',
+    'set c1 color red',
+    'set c2 model new',
+    'print c1',
+    'print c2']);
